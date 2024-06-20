@@ -1,5 +1,40 @@
+<?php
+require "./php_script/Module.php";
+
+if (isset($_POST['register'])) {
+
+
+
+    $username = $_POST['userName'];
+    $email = $_POST['userEmail'];
+    $password = $_POST['userPass'];
+    $confirmpass = $_POST['confirmPass'];
+    $gender = $_POST['gender'];
+    $age = $_POST['age'];
+    $address = null;
+
+
+
+    if ($password != $confirmpass) {
+        echo "<script>alert('Password and Confirm Password do not match')</script>";
+    } else {
+
+        Register($username, $email, $password, $gender, $age, $address);
+        echo "<script>alert('User Registered.')</script>";
+    }
+
+    echo "<script>alert('username: $username pass: $password, confirm: $confirmpass')</script>";
+
+    // echo "<script>alert('registration flow')</script>";
+}
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,10 +54,11 @@
     <!-- custom css -->
     <link rel="stylesheet" href="all.css">
 </head>
+
 <body class="row m-0 p-0 justify-content-center">
     <!-- bg -->
     <div class="position-absolute overflow-hidden row justify-content-center m-0 p-0" style="min-height: 100vh; min-width: 90vw; z-index: -10;">
-        <div class="row justify-content-center align-items-end position-fixed m-0 p-0"  style="min-height: 100vh; min-width: 90vw; ">
+        <div class="row justify-content-center align-items-end position-fixed m-0 p-0" style="min-height: 100vh; min-width: 90vw; ">
             <img src="bg4.jpg" class="img-fluid m-0 p-0 mt-5 pt-5" style="filter: blur(0.5px); min-width: 1000px; max-width: 1300px;" alt="">
         </div>
     </div>
@@ -48,7 +84,7 @@
                     backdrop-filter: blur(10px);
                     -webkit-backdrop-filter: blur(10px);
                     border: 1px solid rgba(255, 255, 255, 0.72);
-                " >
+                " method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                     <div class="form-floating px-0">
                         <input type="text" class="form-control rounded-pill lead px-4 bg-transparent" style="color: #2B4141; " name="userName" id="userName" placeholder="User Name">
                         <label for="userName" class="fw-semibold px-4" style="color: #708585;">User Name</label>
@@ -85,8 +121,8 @@
 
                     <!-- <a class="w-100 btn rounded-pill btnHover py-3 fw-semibold" href="#" style="color: #2B4141; border-color: #2B4141;">OTP</a> -->
 
-                    <button class="w-100 btn rounded-pill btnHover py-3 fw-semibold" style="color: #2B4141; border-color: #2B4141;">Register</button>
-                    <p class="text-center" >Already have an account? <a class="switchFormBtn" style="text-decoration: none; color: #0fa07c;" href="login.php">Login</a></p>
+                    <button class="w-100 btn rounded-pill btnHover py-3 fw-semibold" style="color: #2B4141; border-color: #2B4141;" type="submit" name="register">Register</button>
+                    <p class="text-center">Already have an account? <a class="switchFormBtn" style="text-decoration: none; color: #0fa07c;" href="login.php">Login</a></p>
                 </form>
             </div>
         </div>
@@ -94,6 +130,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/817c4fe6aa.js" crossorigin="anonymous"></script>
-    
+
 </body>
+
 </html>

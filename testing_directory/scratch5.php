@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-
+require "../php_script/Module.php";
 require_once 'PHPMailer-master/src/Exception.php';
 require_once 'PHPMailer-master/src/PHPMailer.php';
 require_once 'PHPMailer-master/src/SMTP.php';
@@ -9,10 +9,36 @@ require_once 'PHPMailer-master/src/SMTP.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
+function Notifier($id)
+{
+    // $report = new Weather();
+
+    // echo $report->json_response;
+
+    // echo "<br>";
+
+    // echo $report->responseArray[0]->values['temperature'];
 
 
 
-function plantMail($toEmail, $mail) {
+    $WindSpeed = 0;
+    $Temp = 0;
+
+    //get all the myplant of this id
+
+    $PlantArray = get_MyPlant();
+
+    // $PlantNickNameList = [];
+
+    // $stringdata =  implode(",", $PlantArray);
+    foreach ($PlantArray as $plant) {
+        echo $plant->plant_nickname;
+    }
+}
+
+
+function plantMail($toEmail, $mail)
+{
     try {
         // Set recipient email address
         $mail->addAddress($toEmail);
@@ -46,14 +72,7 @@ function plantMail($toEmail, $mail) {
 }
 
 
-$mail = new PHPMailer(true);
+// $mail = new PHPMailer(true);
 
-plantMail('pago.j.bscs@gmail.com', $mail);
-
-
-?>
-
-
-
-
-
+// plantMail('pago.j.bscs@gmail.com', $mail);
+Notifier(1);

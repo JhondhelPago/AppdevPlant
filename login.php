@@ -2,22 +2,19 @@
 require "php_script/Module.php";
 session_start();
 
-if(isset($_POST['login_button'])){
+if (isset($_POST['login_button'])) {
     $email = $_POST['userEmail'];
     $password = $_POST['userPass'];
 
-
-    if($id = LoginResult($email, $password) != null){
+    $id = LoginResult($email, $password);
+    if ($id != null) {
         $_SESSION['user_id'] = $id;
-        
-        header('Location: morePlants.php');
 
-    }else{
+        header('Location: morePlants.php');
+    } else {
 
         echo "<script>alert('invalid username and password. ')</script>";
-
     }
-
 }
 
 
@@ -29,6 +26,7 @@ if(isset($_POST['login_button'])){
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,10 +46,11 @@ if(isset($_POST['login_button'])){
     <!-- custom css -->
     <link rel="stylesheet" href="all.css">
 </head>
+
 <body class="row m-0 p-0 justify-content-center">
     <!-- bg -->
     <div class="position-absolute overflow-hidden row justify-content-center m-0 p-0" style="min-height: 100vh; min-width: 90vw; z-index: -10;">
-        <div class="row justify-content-center align-items-end position-fixed m-0 p-0"  style="min-height: 100vh; min-width: 90vw; ">
+        <div class="row justify-content-center align-items-end position-fixed m-0 p-0" style="min-height: 100vh; min-width: 90vw; ">
             <img src="bg4.jpg" class="img-fluid m-0 p-0 mt-5 pt-5" style="filter: blur(0.5px); min-width: 1000px; max-width: 1300px;" alt="">
         </div>
     </div>
@@ -77,9 +76,7 @@ if(isset($_POST['login_button'])){
                     backdrop-filter: blur(10px);
                     -webkit-backdrop-filter: blur(10px);
                     border: 1px solid rgba(255, 255, 255, 0.72);
-                " 
-                method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"
-                >
+                " method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                     <div class="form-floating px-0">
                         <input type="email" class="form-control rounded-pill lead px-4 bg-transparent" style="color: #2B4141;" name="userEmail" id="userEmail" placeholder="Email">
                         <label for="userEmail" class="fw-semibold px-4" style="color: #708585;">Email</label>
@@ -91,8 +88,8 @@ if(isset($_POST['login_button'])){
                     </div>
 
                     <button class="w-100 btn rounded-pill btnHover py-3 fw-semibold" style="color: #2B4141; border-color: #2B4141;" type="submit" name="login_button">Login</button>
-                    <p class="text-center" >Don't have an account? <a class="switchFormBtn" style="text-decoration: none; color: rgb(15, 160, 124);" href="register.php">Register</a></p>
-                    
+                    <p class="text-center">Don't have an account? <a class="switchFormBtn" style="text-decoration: none; color: rgb(15, 160, 124);" href="register.php">Register</a></p>
+
                 </form>
             </div>
         </div>
@@ -100,6 +97,7 @@ if(isset($_POST['login_button'])){
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/817c4fe6aa.js" crossorigin="anonymous"></script>
-    
+
 </body>
+
 </html>

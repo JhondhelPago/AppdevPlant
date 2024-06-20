@@ -13,14 +13,18 @@ if (isset($_POST["save_changes"])) {
 
 
     // echo "<script>alert('$check')</script>";
-
+    $id = $_SESSION['user_id'];
     $username = $_POST['userName'];
-    $gender = $_POST['gender'];
+    $gender = ($_POST['gender'] === 'Male') ? "M" : "F";
     $age = $_POST['age'];
     $address = $_POST['address'];
 
 
-    echo "<script>alert('save_changes button action:  Username:$username, Gender:$gender, Age:$age, Address:$address .')</script>";
+    // echo "<script>alert('save_changes button action:  Username:$username, Gender:$gender, Age:$age, Address:$address .')</script>";
+
+    update_userInfo($id, $username, $gender, $age, $address);
+    echo "<script>alert('Your Personal Information has been updated')</script>";
+    echo "<script>window.location.href='" . $_SERVER['PHP_SELF'] . "';</script>";
 }
 
 
@@ -32,9 +36,64 @@ if (isset($_POST["save_changes"])) {
 if (isset($_POST["change_pass"])) {
 
 
-    echo "<script>alert('change password action ')</script>";
+    $id = $_SESSION['user_id'];
+    $oldpass = $_POST['old'];
+    // // $newpass = $_POST['newPass'];
+    $newpass = $_POST['new'];
+    $confirmpass = $_POST['confirmPass'];
+
+
+
+
+    $MatchResult = MatchPassword($id, $oldpass);
+    $MatchResult = $MatchResult['Password'];
+    // $MatchResult = implode(",", $MatchResult);
+
+    if ($MatchResult != $oldpass) {
+        echo "<script>alert('invalid old password.')</script>";
+    } else {
+        if ($newpass != $confirmpass) {
+            echo "<script>alert('New password and confirm password do not match.')</script>";
+        } else {
+            Changepassword($id, $newpass);
+            echo "<script>alert('password changed.')</script>";
+            echo "<script>window.location.href='" . $_SERVER['PHP_SELF'] . "';</script>";
+        }
+    }
+
+    // echo "<script>alert('MatchResult: $MatchResult')</script>";
+
+
+    // if (!$MatchResult) {
+    //     echo "<script>alert('Old Password is incorrect')</script>";
+    // } else {
+    //     if ($newpass != $confirmpass) {
+    //         echo "<script>alet('new password and confirm password did not match.')</script>";
+    //     } else {
+    //         Changepassword($id, $newpass);
+    //     }
+    // }
+
+
+
+
+
+
+
+
+
+
+    // echo "<script>alert('change password action ')</script>";
+    // echo "<script>alert('oldpass: $oldpass, newpass: $newpass, confirmpass: $confirmpass')</script>";
 }
 
+
+if (isset($_POST['logout'])) {
+
+    session_destroy();
+    header(("Location: login.php"));
+    // echo "<script>alert('logout control')</script>";
+}
 
 
 
@@ -101,9 +160,9 @@ if (isset($_POST["change_pass"])) {
                             </li>
                         </ul>
                         <!-- search -->
-                        <form class="d-flex">
-                            <input class="form-control me-2 rounded-pill px-4" style="color: #2B4141;" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn rounded-pill btnHover" style="border: 1px solid #2b4141;" type="submit"><i class="bi bi-search" style="color: #2B4141;"></i></button>
+                        <form class="d-flex" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">
+
+                            <button class="btn rounded-pill btnHover" style="border: 1px solid #2b4141;" type="submit" name="logout">Logout</button>
                         </form>
                     </div>
                 </div>
@@ -176,15 +235,23 @@ if (isset($_POST["change_pass"])) {
                             <label for="userEmail" class="fw-semibold px-4" style="color: #708585;"><?php echo $UserObject->Email; ?></label>
                         </div> -->
 
+
                     <div class="form-floating px-0">
-                        <input type="password" class="form-control rounded-pill lead px-4 bg-transparent" style="color: #2B4141; " name="userPass" id="userPass" placeholder="Password">
-                        <label for="userPass" class="fw-semibold px-4" style="color: #708585;">New Password</label>
+                        <input type="password" class="form-control rounded-pill lead px-4 bg-transparent" style="color: #2B4141; " name="old" id="old" placeholder="Old Password">
+                        <label for="old" class="fw-semibold px-4" style="color: #708585;">Old Password</label>
+                    </div>
+
+                    <div class="form-floating px-0">
+                        <input type="password" class="form-control rounded-pill lead px-4 bg-transparent" style="color: #2B4141; " name="new" id="new" placeholder="New Password">
+                        <label for="new" class="fw-semibold px-4" style="color: #708585;">New Password</label>
                     </div>
 
                     <div class="form-floating px-0">
                         <input type="password" class="form-control rounded-pill lead px-4 bg-transparent" style="color: #2B4141; " name="confirmPass" id="confirmPass" placeholder="Confirm Password">
                         <label for="confirmPass" class="fw-semibold px-4" style="color: #708585;">Confirm Password</label>
                     </div>
+
+
 
                     <button class="w-100 btn rounded-pill btnHover py-3 fw-semibold" style="color: #2B4141; border-color: #2B4141;" type="submit" name="change_pass">Confirm Change Pass</button>
                 </form>

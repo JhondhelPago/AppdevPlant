@@ -11,6 +11,18 @@ $result = $MyServer->ServerConnection->query($sql);
 $MyPlantObjectArray = ObjectTools::my_plant_to_MyPlant_Object($result);
 
 
+if (isset($_POST['remove'])) {
+
+
+    $id  = $_POST['plantid'];
+
+    removePlant($id);
+    echo "<script>alert('plant remove')</script>";
+    echo "<script>window.location.href='" . $_SERVER['PHP_SELF'] . "';</script>";
+
+    // echo "remove";
+}
+
 
 ?>
 
@@ -141,18 +153,37 @@ $MyPlantObjectArray = ObjectTools::my_plant_to_MyPlant_Object($result);
 
                 ?>
 
-                    <form class="contianer row justify-content-center align-items-center text-center text-xl-start gap-3 p-2" style="border-radius: 2.5rem; background: #70dada1e;">
+                    <form class="contianer row justify-content-center align-items-center text-center text-xl-start gap-3 p-2" style="border-radius: 2.5rem; background: #70dada1e;" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                         <!-- img contaier -->
                         <div class="carousel slide carousel-dark slide col m-0 p-0 justify-content-center align-items-center text-center" id="carouselExampleControls" data-bs-ride="carousel">
                             <div class="carousel-inner">
+
+                                <?php
+                                $imageArray = json_decode($Plant->plant_image, true);
+                                $i = 1;
+
+                                ?>
                                 <!-- img -->
                                 <div class="carousel-item active">
-                                    <img class="img-fluid justify-content-center text-center" style="min-width: 350px; min-height: 350px; max-height: 45vh; max-width: 45vh; border-radius: 2rem;" src="sample1.png" alt="plant image">
+                                    <img class="img-fluid justify-content-center text-center" style="min-width: 350px; min-height: 350px; max-height: 45vh; max-width: 45vh; border-radius: 2rem;" src="<?php echo "plant_images_user/" . $imageArray[0]  ?>" alt="plant image">
                                 </div>
-                                <!-- sample 2nd img -->
-                                <div class="carousel-item">
-                                    <img class="img-fluid justify-content-center text-center" style="min-width: 350px; min-height: 350px; max-height: 45vh; max-width: 45vh; border-radius: 2rem;" src="sample2.webp" alt="plant image">
-                                </div>
+
+                                <?php
+                                while ($i < count($imageArray)) {
+                                ?>
+                                    <!-- sample 2nd img -->
+                                    <div class="carousel-item">
+                                        <img class="img-fluid justify-content-center text-center" style="min-width: 350px; min-height: 350px; max-height: 45vh; max-width: 45vh; border-radius: 2rem;" src="<?php echo "plant_images_user/" . $imageArray[$i] ?>" alt="plant image">
+                                    </div>
+
+                                    <?php
+
+                                    ?>
+                                <?php
+                                    $i++;
+                                }
+                                ?>
+
                             </div>
                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -166,6 +197,12 @@ $MyPlantObjectArray = ObjectTools::my_plant_to_MyPlant_Object($result);
                         <!-- info -->
                         <div class="col-12 col-xl-6 col-xxl-7">
                             <h2 class="fw-semibold mb-3 mx-4 mx-md-0">Plant Nickname: <?php echo $Plant->plant_nickname; ?></h2>
+
+                            <?php
+                            $imageArray = json_decode($Plant->plant_image);
+                            ?>
+
+
 
                             <h4 class="fw-normal mb-3 mx-4 mx-md-0">Scientific Name: <em><?php echo $PlantInfo_src->plant_scientific_name; ?></em> <?php echo  " commonly known as " . $PlantInfo_src->plant_type; ?></h4>
 
@@ -181,8 +218,8 @@ $MyPlantObjectArray = ObjectTools::my_plant_to_MyPlant_Object($result);
                             <p class="fs-6 fw-light mb-0 mx-4 mx-md-0 text-decoration-underline">Plant Trivia:</p>
                             <p><?php echo $PlantInfo_src->plant_trivia; ?></p>
 
-                            <button class="w-100 btn rounded-pill btnHover mb-3" style="color: #2B4141; border-color: #2B4141;">View Plant</button>
-                            <button class="w-100 btn rounded-pill removeBtnHover" style="color: #2B4141; border-color: #2B4141;">Remove Plant</button>
+                            <input type="hidden" name="plantid" id="<?php echo $Plant->id ?>" value="<?php echo $Plant->id ?>"></input>
+                            <button class="w-100 btn rounded-pill removeBtnHover" style="color: #2B4141; border-color: #2B4141;" type="submit" name="remove">Remove Plant</button>
                         </div>
                     </form>
                     <!-- temp -->
