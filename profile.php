@@ -5,24 +5,37 @@ session_start();
 
 $UserObject = get_userInfo($_SESSION['user_id']);
 
+
+
+//My Info 
+//Save Changes Action
 if (isset($_POST["save_changes"])) {
-    $username = $_POST['userName'];
-    $gender = $_POST['gender'];
-    $newpassword = $_POST['userPass'];
-    $confirmpassword = $_POST['confirmPass'];
 
-    $check = ($_POST['userPass'] == '') ? "True for empty string" : "False for not Empty stsring";
-
-
-    if ($newpassword == "" || $confirmpassword == "") {
-        echo "<script>alert('Input Field: new password and confirm password should not be empty string.')</script>";
-    } else {
-        if ($newpassword != $confirmpassword) {
-        }
-    }
 
     // echo "<script>alert('$check')</script>";
+
+    $username = $_POST['userName'];
+    $gender = $_POST['gender'];
+    $age = $_POST['age'];
+    $address = $_POST['address'];
+
+
+    echo "<script>alert('save_changes button action:  Username:$username, Gender:$gender, Age:$age, Address:$address .')</script>";
 }
+
+
+
+
+
+//Change Password
+//Confrim Change Password
+if (isset($_POST["change_pass"])) {
+
+
+    echo "<script>alert('change password action ')</script>";
+}
+
+
 
 
 
@@ -134,8 +147,8 @@ if (isset($_POST["save_changes"])) {
                         </div>
 
                         <div class="form-floating px-0">
-                            <input type="text" class="form-control rounded-pill lead px-4" style="color: #2B4141;" name="userName" id="userName" placeholder="User Name" value="address">
-                            <label for="userName" class="fw-semibold px-4" style="color: #708585;"></label>
+                            <input type="text" class="form-control rounded-pill lead px-4" style="color: #2B4141;" name="address" id="address" placeholder="address" value="address">
+                            <label for="address" class="fw-semibold px-4" style="color: #708585;"></label>
                         </div>
 
 
@@ -155,7 +168,7 @@ if (isset($_POST["save_changes"])) {
                         backdrop-filter: blur(10px);
                         -webkit-backdrop-filter: blur(10px);
                         border: 1px solid rgba(255, 255, 255, 0.72);
-                    " method="post" action="">
+                    " method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">
 
 
                     <!-- <div class="form-floating px-0">
@@ -173,7 +186,7 @@ if (isset($_POST["save_changes"])) {
                         <label for="confirmPass" class="fw-semibold px-4" style="color: #708585;">Confirm Password</label>
                     </div>
 
-                    <button class="w-100 btn rounded-pill btnHover py-3 fw-semibold" style="color: #2B4141; border-color: #2B4141;" type="submit" name="save_changes">Save Changes</button>
+                    <button class="w-100 btn rounded-pill btnHover py-3 fw-semibold" style="color: #2B4141; border-color: #2B4141;" type="submit" name="change_pass">Confirm Change Pass</button>
                 </form>
             </div>
         </div>
