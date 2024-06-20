@@ -1,0 +1,31 @@
+/* <!-- dark 2B4141 --> */
+/* <!-- light 8accbb --> */
+*{
+    font-family: "Lora", serif;
+    color: #2B4141;
+}
+.btnHover:hover{
+    background-color: #8accbb;
+}
+.removeBtnHover:hover{
+    color: white;
+    background-color: rgb(245, 80, 80);
+}
+.switchFormBtn{
+    position: relative;
+}
+.switchFormBtn::before{
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    bottom: 0;
+    left: 50;
+    border-bottom: 1px solid #0fa07c;
+    transform-origin: bottom;
+    transition: transform 0.25s ease-out;
+}
+.switchFormBtn:hover::before{
+    transform: scaleX(1);
+    transform-origin: bottom;
+}
